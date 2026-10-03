@@ -36,6 +36,12 @@ class QuotasTest(base.BaseKeyManagerTest):
 
 
 class ProjectQuotasTest(base.BaseKeyManagerTest):
+    """Project quotas API tests.
+
+    Like all API tests these run with the admin credentials, so the admin
+    user has to be allowed by the "project_quotas:*" policy rules of the
+    deployed barbican (rule:service_admin).
+    """
 
     @classmethod
     def skip_checks(cls):
