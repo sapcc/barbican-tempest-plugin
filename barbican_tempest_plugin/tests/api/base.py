@@ -59,8 +59,11 @@ def creates(resource):
 class BaseKeyManagerTest(test.BaseTestCase):
     """Base class for all api tests."""
 
-    # Why do I have to be an admin to create secrets? No idea...
-    credentials = ('admin', ['service_admin', 'key-manager:service-admin'])
+    # All API tests, including the quota tests, use the admin credentials
+    # only: the account marked with "types: [admin]" in the tempest accounts
+    # file (or a dynamically created admin). No extra role such as
+    # 'key-manager:service-admin' has to be provisioned for the test users.
+    credentials = ['admin']
     client_manager = clients.Clients
     created_objects = {}
 
@@ -79,8 +82,6 @@ class BaseKeyManagerTest(test.BaseTestCase):
         cls.secret_metadata_client = os.secret_v1.SecretMetadataClient(
             service='key-manager'
         )
-
-        os = getattr(cls, 'os_roles_%s' % cls.credentials[1][0])
         cls.quota_client = os.secret_v1.QuotaClient(service='key-manager')
 
     @classmethod
